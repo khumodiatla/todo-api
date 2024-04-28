@@ -1,4 +1,5 @@
 const UserService = require('../services/User');
+const hashPassword = require('../utils/passwordUtils');
 
 const userService = new UserService();
 
@@ -15,18 +16,18 @@ class UserController{
 
             const existingUser =  await userService.getUserByUsername(username);
             if(existingUser){
-                console.error('User with that username already exists.');
+                console.error('User with that username already exists');
+                return res.status(400).json({ error: 'User with that username already exists'});
             }
             
-            //  Todo: Hash password
-            const hashedPassword =  "";
+            const hashedPassword =  await hashPassword(password);
 
             const userInput = {
                 username,
                 email,
                 firstname,
                 lastname,
-                password
+                password: hashedPassword
             }
             const newUser = await userService.createUser(userInput);
 
