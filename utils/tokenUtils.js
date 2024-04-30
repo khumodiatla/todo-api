@@ -13,6 +13,17 @@ const generateToken =  async (userId) => {
     }
 }
 
+const verifyToken = async (token) => {
+    try {
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        
+        return decoded.userId;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
-    generateToken
+    generateToken,
+    verifyToken
 };
