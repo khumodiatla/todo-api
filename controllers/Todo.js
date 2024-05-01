@@ -13,7 +13,7 @@ class TodoController {
                 return res.status(400).json({error: 'All the fields are required'});
             }
     
-            const userId =  req.userId;
+            const userId =  req.userId
             if (userId) {
                 const todoInput = {
                     userId,
@@ -30,6 +30,33 @@ class TodoController {
             }
         } catch (error) {
             console.error('Error while creating a todo: ', error);
+            return res.status(500).json({ error: 'Internal Server error'});
+        }
+    }
+
+    async getTodoById(req, res) {
+        try {
+            const todoId = req.params.todoId;
+            // Todo: Change how todoId is validated
+            if(!todoId) {
+                console.error('Invalid Todo Id');
+                return req.status(400).json({ error: 'Todo not found'});
+            }
+
+            console.log('We out here');
+            const userId = req.userId || "hey";
+            if(userId) {
+                const todo  = await todoService.getTodoById(todoId);
+
+                if(!todo){
+                    console.error('Todo with provide TodoId not found');
+                    return res.status(404).json({ error: 'Todo not found'});
+                }
+
+                return res.json(todo);
+            }        
+        } catch (error) {
+            console.error('Error while getting a Todo: ', error);
             return res.status(500).json({ error: 'Internal Server error'});
         }
     }
