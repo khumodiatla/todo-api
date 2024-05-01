@@ -43,8 +43,7 @@ class TodoController {
                 return req.status(400).json({ error: 'Todo not found'});
             }
 
-            console.log('We out here');
-            const userId = req.userId || "hey";
+            const userId = req.userId;
             if(userId) {
                 const todo  = await todoService.getTodoById(todoId);
 
