@@ -8,6 +8,10 @@ class TodoService {
     async createTodo(todoInput){
         return await Todo.create(todoInput);
     } 
+
+    async getTodos(){
+        return await Todo.find();
+    }
 }
 
 module.exports = TodoService;

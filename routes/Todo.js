@@ -6,5 +6,6 @@ const todoController = new TodoController();
 
 router.post('/todos', authenticateUser, todoController.createTodo);
 router.get('/todos/:todoId', authenticateUser, todoController.getTodoById); 
+router.get('/todos', authenticateUser, todoController.getTodos);
 
 module.exports = router;

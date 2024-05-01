@@ -59,6 +59,22 @@ class TodoController {
             return res.status(500).json({ error: 'Internal Server error'});
         }
     }
+
+    async getTodos(req, res) {
+        try {
+            const todos =  await todoService.getTodos();
+
+            if(!todos) {
+                console.error('Todos not found');
+                return res.status(404).json({ error: 'Todos not found'});
+            }
+            
+            return res.json(todos);
+        } catch (error) {
+            console.error('Error while getting Todos: ', error);
+            return res.status(500).json({ error: 'Internal Server error'});
+        }
+    }
 }
 
 module.exports = TodoController;
