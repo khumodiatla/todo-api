@@ -14,18 +14,20 @@ class TodoController {
             }
     
             const userId =  req.userId;
-            const todoInput = {
-                userId,
-                title,
-                description,
-                completed,
-                dueDate,
-                priority
-            }
+            if (userId) {
+                const todoInput = {
+                    userId,
+                    title,
+                    description,
+                    completed,
+                    dueDate,
+                    priority
+                }
+        
+                const todo = await todoService.createTodo(todoInput)
     
-            const todo = await todoService.createTodo(todoInput)
-
-            return res.status(201).json(todo);
+                return res.status(201).json(todo);
+            }
         } catch (error) {
             console.error('Error while creating a todo: ', error);
             return res.status(500).json({ error: 'Internal Server error'});
