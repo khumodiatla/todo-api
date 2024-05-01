@@ -12,6 +12,10 @@ class TodoService {
     async getTodos(){
         return await Todo.find();
     }
+
+    async updateTodo(todoId, todoInput){
+        return await Todo.updateOne({ _id: todoId}, todoInput);
+    }
 }
 
 module.exports = TodoService;

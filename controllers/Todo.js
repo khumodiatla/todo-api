@@ -75,6 +75,41 @@ class TodoController {
             return res.status(500).json({ error: 'Internal Server error'});
         }
     }
+
+    async updateTodo(req, res){
+        try {
+            const todoId = req.params.todoId;
+            const { title, description, completed, dueDate, priority } =  req.body;
+
+            // Todo: Change how todoId is validated
+            if(!todoId) {
+                console.error('Invalid Todo Id');
+                return req.status(400).json({ error: 'Todo not found'});
+            }
+
+            const existingTodo =  await todoService.getTodoById(todoId);
+            if(!existingTodo){
+                console.error('Todo with provide TodoId not found');
+                return res.status(404).json({ error: 'Todo not found'});
+            }
+
+            const todoInput ={
+                title,
+                description,
+                completed,
+                dueDate,
+                priority
+            }
+            await todoService.updateTodo(todoId, todoInput);
+
+            const updatedTodo = await todoService.getTodoById(todoId);
+
+            return res.json(updatedTodo);
+        } catch (error) {
+            console.error('Error updating a todo: ', error);
+            return res.status(500).json({ error: 'Internal Server error'});
+        }
+    }
 }
 
 module.exports = TodoController;
